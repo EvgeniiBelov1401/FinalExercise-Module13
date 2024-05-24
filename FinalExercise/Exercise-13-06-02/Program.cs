@@ -13,31 +13,40 @@ namespace Exercise_13_06_02
             var place = 1;
             string pathOriginalText = @"D:\Programming\Skillfactory\C#_projects\Module_13\FinalExercise\FinalExercise\Exercise-13-06-02\Text1.txt";
             string originalText=File.ReadAllText(pathOriginalText);
-            var noPunctuationText = new string(originalText.Where(c => !char.IsPunctuation(c)).ToArray());
-            string[] text = noPunctuationText.Split(new char[] { ' ', '.', ',', '!', '?', ';', ':' }, StringSplitOptions.RemoveEmptyEntries);
 
-            var wordsRepeat=new Dictionary<string, int>();
-
-            foreach (var word in text)
+            if(originalText !=null)
             {
-                if (wordsRepeat.ContainsKey(word))
+                var noPunctuationText = new string(originalText.Where(c => !char.IsPunctuation(c)).ToArray());
+                string[] text = noPunctuationText.Split(new char[] { ' ', '.', ',', '!', '?', ';', ':' }, StringSplitOptions.RemoveEmptyEntries);
+
+                var wordsRepeat = new Dictionary<string, int>();
+
+                foreach (var word in text)
                 {
-                    wordsRepeat[word]++;
+                    if (wordsRepeat.ContainsKey(word))
+                    {
+                        wordsRepeat[word]++;
+                    }
+                    else
+                    {
+                        wordsRepeat[word] = 1;
+                    }
                 }
-                else
+
+                var sortedWordsRepeat = wordsRepeat.OrderByDescending(x => x.Value);
+                var topTenWords = sortedWordsRepeat.Take(10).ToDictionary(x => x.Key, x => x.Value);
+
+                foreach (var topList in topTenWords)
                 {
-                    wordsRepeat[word] = 1;
+                    Console.WriteLine($"{place} место:   Слово'{topList.Key}' - встречается {topList.Value} раз");
+                    place++;
                 }
             }
-           
-            var sortedWordsRepeat=wordsRepeat.OrderByDescending(x => x.Value);                    
-            var topTenWords=sortedWordsRepeat.Take(10).ToDictionary(x=>x.Key,x=>x.Value);
-
-            foreach (var topList in topTenWords)
+            else
             {
-                Console.WriteLine($"{place} место:   Слово'{topList.Key}' - встречается {topList.Value} раз");
-                place++;
+                Console.WriteLine("Файл пустой");
             }
+            
         }
     }
 }
