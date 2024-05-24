@@ -38,14 +38,6 @@ namespace Exercise_13_06_02
                 Console.WriteLine($"{place} место:   Слово'{topList.Key}' - встречается {topList.Value} раз");
                 place++;
             }
-
-
-
-
-
-
-
-
         }
     }
 }
